@@ -9,9 +9,19 @@
 <br>
 
 # Description
+### app 이 무슨 일을 하는지
+- 운동 영상을 기반으로 운동의 종류를 판단하고, 해당 운동 동작에 대한 정확도를 카운트마다 평가
+- 정확도 평가 모델에 따라 개수를 카운팅 해주는 인공지능 코칭 서비스를 제공함으로써 보다 객관적인 운동 판단이 가능해짐
 
+### 왜 이 기술을 사용했는지
+- 이미지, 비디오 기술 및 사람 동작 인지 연구가 지속적으로 성장하나 헬스산업 분야에서 
+적용되어지고 있지 않음
 
-(app이 무슨일을 하는지, 왜 이 기술을 사용했는지, 미래에 발전시키고 싶은 내용)
+### 미래에 발전시키고 싶은 내용
+- 현재 checkmate는 운동 종류마다 정확한 자세를 판단하는 기준이 3-5가지인 것을 통합하여 모든 조건이 정환한 경우에만 정확한 자세라고 학습을 시켰음
+- 조건에 해당하는 condition 을 하나하나 학습 시키면 정확도 향상을 기대할 수 있음.
+- 현재의 기술 개발은 영상 업로드 가능, cam 과 연결하여 실시간 평가가 가능하게 발전시킬 예정.
+
 
 <br>
 
@@ -43,24 +53,24 @@ wbs 참고해서 우리 일정표 추가할 것
 ## 1. 데이터 준비
 **[폴더] 1_analysis**
 1. 데이터 수집
-<pre>
-  AI Hub에서 제공한 '피트니스 자세 이미지' 데이터셋을 수집.
-  약 1.04 TB 압축 파일로 정확도 추론에 이용되는 conditions, 운동 종류 등의 정보를 담고 있는 json file 과 하나의 영상을 총 32개의 이미지 jpg file 로 나누어 저장되어 있음.
-  이미지 파일은 mediapipe의 pose 를 이용하여 33개의 포인트 x,y,z 좌표를 추출한 후, labeling 파일과 merge하여 모델 학습에 이용되는 데이터셋을 구축.
+
+- AI Hub에서 제공한 '피트니스 자세 이미지' 데이터셋을 수집.
+약 1.04 TB 압축 파일로 정확도 추론에 이용되는 conditions, 운동 종류 등의 정보를 담고 있는 json file 과 하나의 영상을 총 32개의 이미지 jpg file 로 나누어 저장되어 있음.
+이미지 파일은 mediapipe의 pose 를 이용하여 33개의 포인트 x,y,z 좌표를 추출한 후, labeling 파일과 merge하여 모델 학습에 이용되는 데이터셋을 구축.
  
-</pre>
 
 <img width="1178" alt="dataset" src="https://github.com/ryuheejung/make_readme/assets/134662856/2d5c7857-6fa9-4212-8292-fbcf55764501">
+<br>
 
 2. 데이터 전처리 및 EDA
-- mediapipe에서 좌표값이 추출되지 않는 이미지 등의 이유로 결측치가 존재하는 경우, 해당 32개의 이미지를 모두 제거 (이유작성 필요, 충분한 데이터 수를 확보했기 때문에~~~ )
+- 결측치 처리 : mediapipe에서 좌표값이 추출되지 않는 이미지 등의 이유로 결측치가 존재하는 경우, 해당 32개의 이미지를 모두 제거 (이유작성 필요, 충분한 데이터 수를 확보했기 때문에~~~ )
 
 <img width="1178" alt="데이터셋구조" src="https://github.com/pulpo125/AIPlayer_Pling/assets/118874524/486a0b11-13da-4f86-897f-85cfafc1102b">
 
-<br>
 
-- 플레이리스트 데이터셋은 제목, 곡 리스트, 해시태그 리스트로 구성되어 있습니다. 저희 서비스 역시 플레이리스트의 곡과 태그를 추천해야 하기 때문에 인풋값을 축소하고 복원하는 과정에서 이 인풋값에 대한 중요한 특징을 학습하는 오토인코더를 활용하여 플레이리스트를 넣어 비슷하지만 또 다른 플레이리스트를 생성하는 추천 알고리즘을 구현하기로 결정했습니다.
-이러한 추천 알고리즘은 사용자 로그 없는 협업 필터링이라는 큰 장점이 있습니다.
+- 분류모델의 성능 평가에서 f1 score 가 상대적으로 낮은 두 운동의 EDA 를 진행.
+- mediapipe 를 이용하여 좌표를 뽑아낸 경우 좌표값들이 정규화 되어 나오기 때문에 어느 각도, 이미지의 사이즈 등에서 자유도가 높은 편이다. 그렇지만 
+
 
 ## 2. EDA 및 전처리
 <img width="1178" alt="데이터전처리과정" src="https://github.com/pulpo125/AIPlayer_Pling/assets/118874524/5b575dc7-8efd-421c-b544-6c5fbff14426">
@@ -69,21 +79,21 @@ wbs 참고해서 우리 일정표 추가할 것
 
 - EDA를 통해 알게된 결측치 및 이상치를 제거하고 추천 알고리즘인 오토인코더 학습을 위해 곡과 태그에 대한 Feature를 선별하는 작업을 진행했습니다. 오토인코더 학습을 위해서는 곡과 태그의 포함 여부에 대한 원-핫 인코딩을 해야 하는 데 저희 데이터셋의 고유 곡과 태그가 약 60만 개 이상으로 컴퓨팅 자원 제한 문제가 발생했습니다. 때문에, 빈도 수를 기준으로 상위 20%의 곡과 태그만을 Feature로 사용했습니다.
 
-## 2. 모델링
-### 1. 자연어 처리
+## 3. 모델링
+### 1. 분류 모델
 **[폴더] 2_sBert**
 - 플레이리스트 제목은 해당 플레이리스트를 구성하는 곡과 태그에 전체적인 분위기를 담고 있습니다. 때문에, 사용자가 플레이리스트 제목을 입력하면 sBert를 사용하여 변환한 임베딩을 저희 멜론 플레이리스트 제목 임베딩 데이터와 비교하여 코사인 유사도가 높은 Top 3를 사용자들에게 제공합니다. 이 중 사용자가 원하는 플레이리스트를 선택하게 되고 선택된 플레이리스트를 오토인코더의 인풋값으로 주어 추천을 진행하게 됩니다.
 - 플레이리스트 제목이 전체적인 분위기를 담고 있다는 데이터의 특징을 활용하여 자연어 처리를 통한 추천 알고리즘의 인풋값을 선정하는 아이디어를 생각했습니다.
 
-### 2. 추천 알고리즘
+### 2. 카운팅 모델
 **[폴더] 3_autoEncoder**
 <br>
 
 <img width="1178" alt="추천과정" src="https://github.com/pulpo125/AIPlayer_Pling/assets/118874524/9c604725-0966-4160-b087-5bf1a68826b7">
 
-- 카카오 아레나에서 제공한 nDCG 라는 평가지표를 사용하여 모델 평가를 진행했습니다. nDCG는 추천 결과의 구성 요소와 순서를 모두 고려하는 평가 지표 입니다. 때문에, 오토인코더의 아웃풋에서 확률이 높은 순으로 정렬하여 추천 결과를 생성합니다. 
+- 일반적으로 운동 인식에서 이용되는 방법인  
 
-### 3. 이미지 생성 모델
+### 3. 정확도 추론 모델
 **[폴더] 4_imgModel**
 - 플레이리스트 분위기와 유사한 이미지를 생성하기 위해 튜닝을 진행해야 하기 때문에 오픈 소스로 제공되는 Stable Diffusion을 사용했습니다. Stable Diffusion은 영어로 학습된 모델이므로 한국어로 입력된 플레이리스트 제목을 영어로 변환하기 위해 googletrans 라는 구글 번역기 라이브러리를 사용했습니다. 이렇게 영어로 번역된 제목은 Stable Diffusion의 프롬프트로 사용되게 됩니다.
 
@@ -119,23 +129,23 @@ wbs 참고해서 우리 일정표 추가할 것
   <br>
   <img src="https://img.shields.io/badge/visualstudiocode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white"> 
   <img src="https://img.shields.io/badge/googlecolab-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Anaconda-44A833?style=for-the-badge&logo=Anaconda&logoColor=white">  
+  <img src="https://img.shields.io/badge/openCV-5C3EE8?style=for-the-badge&logo=openCV&logoColor=white">  
   <br>
   <img src="https://img.shields.io/badge/pandas-150458?style=for-the-badge&logo=pandas&logoColor=white"> 
   <img src="https://img.shields.io/badge/numpy-013243?style=for-the-badge&logo=numpy&logoColor=white"> 
   <img src="https://img.shields.io/badge/tensorflow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white"> 
-  <img src="https://img.shields.io/badge/pytorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white">
+  <img src="https://img.shields.io/badge/scikit learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Keras-D00000?style=for-the-badge&logo=Keras&logoColor=white">  
   <br>
-  <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> 
-  <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
-  <img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
+  <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white"> 
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
   <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
-  <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">
+  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black">  
   <br>
-  <img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white">
-  <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
   <img src="https://img.shields.io/badge/ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=black"> 
   <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white"> 
-  <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
   <br>
   <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
   <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
