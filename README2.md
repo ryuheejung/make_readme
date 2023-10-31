@@ -83,8 +83,7 @@
 ## 3. 모델링
 <img width="1178" alt="data flow of service" src="https://user-images.githubusercontent.com/134662856/279037487-81c602b8-144f-4e6b-a02a-76c3452a6e4b.png">
 <!--전체적인 데이터(영상)이 들어오면 어떻게 처리되어 user 에게 보여지는지 한장의 이미지로 설명하기-->
-<img width="1178" alt="data flow of service" src="https://user-images.githubusercontent.com/134662856/279430604-939f5f49-b12a-4d8a-a19d-91328ffc6540.png
-">
+<img width="1178" alt="data flow of service" src="https://user-images.githubusercontent.com/134662856/279430604-939f5f49-b12a-4d8a-a19d-91328ffc6540.png">
 
 ### 1. 분류 모델
 **[폴더] 2_sBert**
@@ -100,8 +99,7 @@
 ### 3. 정확도 추론 모델
 **[폴더] 4_imgModel**
 - count 별 
-<img width="1178" alt="accuracy model" src="
-https://user-images.githubusercontent.com/134662856/279439884-29b9dbc0-491f-4d8d-addb-76c68f7591d1.png">
+<img width="1178" alt="accuracy model" src="https://user-images.githubusercontent.com/134662856/279439884-29b9dbc0-491f-4d8d-addb-76c68f7591d1.png">
 
 <br>
 
