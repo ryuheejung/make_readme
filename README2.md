@@ -31,18 +31,18 @@
 [1) Project title](#Project-title) <br>
 [2) Description](#Description) <br>
 [3) Table of contents](#Table-of-contents) <br>
-[4) Schedule](#Schedule) <br>
+[4) Project timeline](#Project-timeline) <br>
 [5) Service demonstration video](#Service-demonstration-video) <br>
 [6) Project process](#Project-process) <br>
 [7) Badges](#Badges) <br>
 
 <br>
 
-# Schedule
-wbs 참고해서 우리 일정표 추가할 것
+# Project timeline
+23.09.04 ~ 23.10.19 (약 6 주간)
 <br>
 
-<img width="1178" alt="프로젝트 일정표" src="https://github.com/pulpo125/AIPlayer_Pling/assets/118874524/6f57707f-6b2d-4791-9c9e-4a1fcfcfa54c">
+<img width="1178" alt="timeline" src="https://user-images.githubusercontent.com/134662856/279435285-7c3efb4e-d202-4443-80d6-0da9506d3173.png">
 
 <br>
 
@@ -84,6 +84,8 @@ wbs 참고해서 우리 일정표 추가할 것
 ## 3. 모델링
 <img width="1178" alt="data flow of service" src="https://user-images.githubusercontent.com/134662856/279037487-81c602b8-144f-4e6b-a02a-76c3452a6e4b.png">
 <!--전체적인 데이터(영상)이 들어오면 어떻게 처리되어 user 에게 보여지는지 한장의 이미지로 설명하기-->
+<img width="1178" alt="data flow of service" src="https://user-images.githubusercontent.com/134662856/279430604-939f5f49-b12a-4d8a-a19d-91328ffc6540.png
+">
 
 ### 1. 분류 모델
 **[폴더] 2_sBert**
@@ -94,9 +96,7 @@ wbs 참고해서 우리 일정표 추가할 것
 **[폴더] 3_autoEncoder**
 <br>
 
-<img width="1178" alt="추천과정" src="https://github.com/pulpo125/AIPlayer_Pling/assets/118874524/9c604725-0966-4160-b087-5bf1a68826b7">
-
-- 일반적으로 운동 인식에서 이용되는 방법인  
+- 스켈레톤 좌표를 이용하여 운동 종류마다 팔꿈치, 무릎 등 기준이 되는 포인트의 각도를 가지고 
 
 ### 3. 정확도 추론 모델
 **[폴더] 4_imgModel**
