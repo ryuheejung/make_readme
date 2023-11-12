@@ -42,7 +42,7 @@
 23.09.04 ~ 23.10.19 (약 6 주간)
 <br>
 
-<img width="1178" alt="timeline" src="https://user-images.githubusercontent.com/134662856/279435285-7c3efb4e-d202-4443-80d6-0da9506d3173.png">
+<img width="1178" alt="timeline" src="https://user-images.githubusercontent.com/134662856/282296372-79a4948a-6998-4d4c-86b9-3e186783c610.png">
 
 <br>
 
