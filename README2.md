@@ -42,7 +42,7 @@
 23.09.04 ~ 23.10.19 (약 6 주간)
 <br>
 
-<img width="1170" alt="timeline" src="https://user-images.githubusercontent.com/134662856/282296372-79a4948a-6998-4d4c-86b9-3e186783c610.png">
+<img width="1100" alt="timeline" src="https://user-images.githubusercontent.com/134662856/282296372-79a4948a-6998-4d4c-86b9-3e186783c610.png">
 
 <br>
 
@@ -57,10 +57,10 @@
 1. 데이터 수집
 
 - AI Hub에서 제공한 '피트니스 자세 이미지' 데이터셋을 수집.
-약 1.04 TB 압축 파일로 정확도 추론에 이용되는 conditions, 운동 종류 등의 정보를 담고 있는 json file 과 하나의 영상을 총 32개의 이미지 jpg file 로 나누어 저장되어 있음.
-이미지 파일은 mediapipe의 pose 를 이용하여 33개의 포인트 x,y,z 좌표를 추출한 후, labeling 파일과 merge하여 모델 학습에 이용되는 데이터셋을 구축. 
+- 약 1.04 TB 압축 파일로 하나의 영상을 총 32개의 이미지형태로 저장되어 있는 원천 데이터와 정확도 추론에 이용되는 conditions, 운동 분류에 이용되는 exercise 등 해당 운동 영상을 레이블링한 정보가 담긴 레이블링 데이터로 구성.
+- 이미지 파일은 mediapipe의 pose 를 이용하여 33개의 포인트 x,y,z 좌표를 추출한 후, labeling 파일과 merge하여 모델 학습에 이용되는 데이터셋을 구축. 
 
-<img width="1178" alt="dataset" src="https://github.com/ryuheejung/make_readme/assets/134662856/2d5c7857-6fa9-4212-8292-fbcf55764501">
+<img width="1100" alt="dataset" src="https://user-images.githubusercontent.com/134662856/282302828-58f7aa1b-1afe-43b4-ad4d-2760f7c24533.png">
 
 <br>
 
@@ -89,6 +89,7 @@
 **[폴더] 2_sBert**
 
 - categorical boost model 
+- EDA를 통해 알게된 각 exercise별 분류에 각 주요 부위 별 y값이 중요하다는 것을 알게 됨. 이를 통해 각 landmark의 y값의 차이를 새로운 feature로 선정, 이를 통해 모델링을 수정한 결과 학습 데이터에 대해서는 기존보다 F1 score는 기존 모델링보다 낮았으나 학습 데이터 이외의 데이터에 대해서는 정확한 분류를 나타내었습니다. 이로 인해 기존의 x,y,z좌표에 대한 feature를 각 exercise별 y_height로 대체하였습니다. 또한 각 image별 landmark에 대한 x,y,z 좌표의 정형 데이터를 사용하였기 때문에 딥러닝보다는 머신러닝 모델을 고려하게 되었습니다.
 
 ### 2. 카운팅 모델
 **[폴더] 3_autoEncoder**
@@ -100,7 +101,10 @@
 **[폴더] 4_imgModel**
 - count 별 
 <img width="1178" alt="accuracy model" src="https://user-images.githubusercontent.com/134662856/279439884-29b9dbc0-491f-4d8d-addb-76c68f7591d1.png">
+- Data set의 condition을 활용하여 운동의 정확도를 기준으로 잡았습니다(conditions가 전부 True이면 정확한 자세, 그 외에는 부정확한 자세) 분류 모델과 마찬가지로 LSTM모델을 사용해보았으나 F1-score, Accuracy 둘다 성능이 낮았습니다. 이에 input-Data의 Features 또한 변형해 보았으나 성능에 유의미한 차이를 나타내지는 않았습니다. 이에 데이터를 재차 분석해 본 결과 두 가지 문제점을 찾을 수 있었습니다.
+- Conditions의 main feature 우리가 정확도에 중점을 둔 것은 Data의 conditions였습니다. random forest를 활용하여 conditions를 결정하는 importances를 구해본 결과, 한 두개의 landmark만 영향을 끼친다는 것을 알 수 있었습니다. 이에 각 운동별 conditions에 영향을 주는 feature에 가중치를 부여해 보았습니다
 
+- 한 sequence의 count차이 데이터에 활용되는 이미지를 분석해본 결과, 한 sequence로 묶은 이미지당 운동 count가 각자 다른 것을 알 수 있었습니다. 이를 해결하기 위해 데이터를 다음과 같은 단계로 전처리를 진행하였습니다. 2-1 같은 운동 동작에 대해 한 인물이 진행하는 것이기 때문에 sequence마다 주기성이 존재했습니다. 2-2 Data를 sequence로 묶은 후 , 1번에서 구한 Main features를 기준, 오름 차순(또는 내림차순)으로 정렬하였습니다. 그 후 최소(최대)값 기준 Sequence의 첫 번째, 그 다음 값을 32번째, 2번째, 31번째 ...등으로 반복하여 운동 동작 1회를 학습하게 하는 sequence processing과정을 거쳐 위와 같은 문제를 해결할 수 있었습니다
 <br>
 
 ## 3. 서비스 구현
