@@ -111,7 +111,7 @@
 - LSTM모델을 사용해보았으나 F1-score, Accuracy 둘다 성능이 낮음 -> 이에 input-Data의 Features 또한 변형해 보았으나 같은 결과가 나옴
 - 이에 데이터를 재차 분석해 본 결과 두 가지 문제점을 발견함.
 1. Main features 
--random forest를 활용하여 conditions를 결정하는 importances를 구해본 결과, 한 두개의 landmark만 영향을 끼친다는 것을 알 수 있었음.
+- random forest를 활용하여 conditions를 결정하는 importances를 구해본 결과, 한 두개의 landmark만 영향을 끼친다는 것을 알 수 있었음.
 -  이에 각 운동별 conditions에 영향을 주는 feature에 가중치를 부여
 2. Exercise Count
 - 한 sequence의 count차이 데이터에 활용되는 이미지를 분석해본 결과, 한 sequence로 묶은 이미지당 운동 count가 각자 다른 것을 알 수 있었음. 
