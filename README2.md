@@ -61,7 +61,7 @@ wbs 참고해서 우리 일정표 추가할 것
 이미지 파일은 mediapipe의 pose 를 이용하여 33개의 포인트 x,y,z 좌표를 추출한 후, labeling 파일과 merge하여 모델 학습에 이용되는 데이터셋을 구축.
  
 
-<img width="1178" alt="dataset" src="https://github.com/ryuheejung/make_readme/assets/134662856/2d5c7857-6fa9-4212-8292-fbcf55764501">
+<img width="1178" alt="dataset" src=https://user-images.githubusercontent.com/130980274/282303564-70b5ad0b-8344-4e8c-826f-db0146638efb.png>
 <br>
 
 2. 데이터 전처리 및 EDA
