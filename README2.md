@@ -105,10 +105,9 @@
 
 ### 3. 정확도 추론 모델
 **[폴더] 4_imgModel**
-<br>
-- count 별 
+<br> 
 <img width="1178" alt="accuracy model" src="https://user-images.githubusercontent.com/134662856/279439884-29b9dbc0-491f-4d8d-addb-76c68f7591d1.png">
-- Data set의 condition을 운동의 정확도를 분류하는 데에 기준을 잡음(conditions가 전부 True이면 정확한 자세, 그 외에는 부정확한 자세)
+- Count별, Data set의 condition을 운동의 정확도를 분류하는 데에 기준을 잡음(conditions가 전부 True이면 정확한 자세, 그 외에는 부정확한 자세)
 - LSTM모델을 사용해보았으나 F1-score, Accuracy 둘다 성능이 낮음 -> 이에 input-Data의 Features 또한 변형해 보았으나 같은 결과가 나옴
 - 이에 데이터를 재차 분석해 본 결과 두 가지 문제점을 발견함.
 1. Main features 
@@ -118,8 +117,9 @@
 - 한 sequence의 count차이 데이터에 활용되는 이미지를 분석해본 결과, 한 sequence로 묶은 이미지당 운동 count가 각자 다른 것을 알 수 있었음. 
 - 이를 해결하기 위해 데이터를 다음과 같은 단계로 전처리를 진행하였음. 
  
-    #### (2-1) 같은 운동 동작에 대해 한 인물이 진행하는 것이기 때문에 sequence마다 주기성이 존재함
-    #### (2-2) Data를 sequence로 묶은 후 , 1번에서 구한 Main features를 기준, 오름 차순(또는 내림차순)으로 정렬. 그 후, 최소(최대)값 기준 Sequence의 첫 번째, 그 다음 값을 32번째, 2번째, 31번째 ...등으로 반복하여 운동 동작 1회를 학습하게 하는 sequence processing과정을 거쳐 위와 같은 문제를 해결
+    (2-1) 같은 운동 동작에 대해 한 인물이 진행하는 것이기 때문에 sequence마다 주기성이 존재함
+    <br>
+    (2-2) Data를 sequence로 묶은 후 , 1번에서 구한 Main features를 기준, 오름 차순(또는 내림차순)으로 정렬. 그 후, 최소(최대)값 기준 Sequence의 첫 번째, 그 다음 값을 32번째, 2번째, 31번째 ...등으로 반복하여 운동 동작 1회를 학습하게 하는 sequence processing과정을 거쳐 위와 같은 문제를 해결
 <br>
 
 ## 3. 서비스 구현
