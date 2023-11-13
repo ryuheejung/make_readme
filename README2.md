@@ -105,6 +105,7 @@
 
 ### 3. 정확도 추론 모델
 **[폴더] 4_imgModel**
+<br>
 - count 별 
 <img width="1178" alt="accuracy model" src="https://user-images.githubusercontent.com/134662856/279439884-29b9dbc0-491f-4d8d-addb-76c68f7591d1.png">
 - Data set의 condition을 운동의 정확도를 분류하는 데에 기준을 잡음(conditions가 전부 True이면 정확한 자세, 그 외에는 부정확한 자세)
